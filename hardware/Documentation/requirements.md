@@ -1,10 +1,10 @@
 # Hardware Requirements & Constraints
-## Cooperative Microgrid Energy Orchestrator — Hardware Domain
+## Cooperative Microgrid Energy Orchestrator - Hardware Domain
 
 **Author:** [Waad]
 **Role:** Hardware & Embedded Hardware Engineer
 **Date:** 4/8/2026
-**Status:** Draft v1 — Milestone M0
+**Status:** Draft v1 - Milestone M0
 **Mode:** 🔵 SIMULATION-ONLY (see Section 6)
 
 ---
@@ -16,7 +16,7 @@ covering solar panel input, battery storage, and DC/AC load stages. Each microgr
 represented by one ESP32-based node that senses local electrical conditions and
 communicates with a central backend over MQTT.
 
-This document defines *what* each node must sense and control — electrical selection
+This document defines *what* each node must sense and control electrical selection
 of specific components happens in the next phase (Component Selection Trade Studies),
 not here.
 
@@ -33,7 +33,7 @@ not here.
 | Load side | 12 V – 24 V DC |
 
 - **Minimum voltage:** 0 V (required for calibration and safety checks)
-- **Maximum voltage (design ceiling):** 30 V DC — includes a 20–30% safety margin
+- **Maximum voltage (design ceiling):** 30 V DC - includes a 20–30% safety margin
   above the highest expected stage voltage (24 V load side)
 
 ### 2.2 Current Range
@@ -46,7 +46,7 @@ not here.
 | General monitoring (with sensor) | 0 A – 5 A |
 
 - **Minimum current:** 0 A
-- **Maximum current (design ceiling):** 5 A DC — sized for small-to-medium scale
+- **Maximum current (design ceiling):** 5 A DC sized for small-to-medium scale
   applications, with margin above the highest measured stage (battery charging)
 
 ### 2.3 Accuracy Target
@@ -57,7 +57,7 @@ not here.
 | Current measurement | ±1.75–22% (sensor-dependent) |
 | Power calculation | ±2–5% (typical) |
 
-**Overall accuracy target: ±2–5%** — a moderate, reasonable target for a hackathon-scale
+**Overall accuracy target: ±2–5%** - a moderate, reasonable target for a hackathon-scale
 prototype (not lab-grade instrumentation).
 
 ---
@@ -77,12 +77,12 @@ Recommended configuration: **2–3 nodes.**
 ## 4. Processing & Communication Requirements
 
 - **Microcontroller:** ESP32 (variant selection = separate trade study, Milestone 1)
-- **Analog sensing:** ADC1 only (GPIO32–39) — ADC2 is unreliable while Wi-Fi is active
+- **Analog sensing:** ADC1 only (GPIO32–39) ADC2 is unreliable while Wi-Fi is active
 - **Digital sensing/communication:** I2C bus (shared between current/voltage IC and
   optional environmental sensor)
 - **Wireless communication:** Wi-Fi → MQTT to central FastAPI backend
 - **Optional actuation:** GPIO-controlled MOSFET/relay for flexible load control
-  (in scope only if project timeline allows — to be confirmed by Milestone 1)
+  (in scope only if project timeline allows to be confirmed by Milestone 1)
 
 ---
 
@@ -95,7 +95,7 @@ Solar Panel → Charge Controller → Battery → Buck/LDO Converter (5V/3.3V) �
 ```
 
 - ESP32 must be powered from the same microgrid it measures (self-powered node concept)
-- Power design must account for Wi-Fi TX current bursts (300–500 mA peaks) — this is a
+- Power design must account for Wi-Fi TX current bursts (300–500 mA peaks) this is a
   known failure mode (brownouts/resets) if under-budgeted; see Component Selection phase
 
 ---
@@ -125,7 +125,7 @@ maintained separately in `Documentation/simulation-scope-and-limitations.md`.
 Per coordination with the Firmware Engineer (as of 5/8/2026), the following are locked
 and **should not change without immediate notification**:
 
-- **ESP32 Variant:** ESP32-DevKitC (WROOM-32) — pending final confirmation in
+- **ESP32 Variant:** ESP32-DevKitC (WROOM-32) - pending final confirmation in
   Milestone 1 trade study
 - **Sensor count:** 2–3 (Voltage, Current, optional Environmental)
 - **Communication:** I2C + Analog ADC (ADC1 only, GPIO32–39)
@@ -144,7 +144,7 @@ Pending from Firmware Engineer (expected within 2 days of 5/8/2026):
 
 - **Timeline:** Hardware work begins 5/8/2026, all deliverables must be complete by
   1/9/2026 (~27 days)
-- **Budget/procurement:** N/A for this phase — no physical components purchased
+- **Budget/procurement:** N/A for this phase no physical components purchased
   (see Section 6)
 - **Tooling:** Wokwi (ESP32 + circuit simulation), KiCad (schematic + PCB),
   LTspice (analog circuit simulation), Tinkercad Circuits (basic circuit sanity checks)
