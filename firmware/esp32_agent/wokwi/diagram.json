@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "author": "Syzygy Team",
+  "editor": "wokwi",
+  "parts": [
+    {"type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {}},
+    {"type": "wokwi-ina219", "id": "ina219", "top": 50, "left": 150, "attrs": {}},
+    {"type": "wokwi-potentiometer", "id": "pv_sim", "top": -50, "left": -100, "attrs": {}},
+    {"type": "wokwi-potentiometer", "id": "load_sim", "top": 50, "left": -100, "attrs": {}},
+    {"type": "wokwi-resistor", "id": "r1", "top": 100, "left": 200, "attrs": {"value": "1000"}},
+    {"type": "wokwi-led", "id": "led_status", "top": 150, "left": 100, "attrs": {"color": "green"}},
+    {"type": "wokwi-pushbutton", "id": "btn_fault", "top": 200, "left": -50, "attrs": {}},
+    {"type": "wokwi-text", "id": "label", "top": -80, "left": 50, "attrs": {"text": "SYZYGY Node"}}
+  ],
+  "connections": [
+    ["esp:TX", "$serialMonitor:RX", "", []],
+    ["esp:RX", "$serialMonitor:TX", "", []],
+    ["esp:21", "ina219:SDA", "green", ["h0"]],
+    ["esp:22", "ina219:SCL", "blue", ["h0"]],
+    ["esp:3V3", "ina219:VCC", "red", ["h0"]],
+    ["esp:GND.2", "ina219:GND", "black", ["h0"]],
+    ["esp:34", "pv_sim:SIG", "orange", ["h0"]],
+    ["esp:35", "load_sim:SIG", "purple", ["h0"]],
+    ["esp:25", "r1:1", "yellow", ["h0"]],
+    ["r1:2", "led_status:A", "yellow", ["h0"]],
+    ["led_status:C", "esp:GND.3", "black", ["h0"]],
+    ["esp:26", "btn_fault:1.l", "white", ["h0"]],
+    ["btn_fault:2.r", "esp:GND.1", "black", ["h0"]]
+  ]
+}
