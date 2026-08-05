@@ -16,7 +16,6 @@ After the reference node is completed, the same architecture can be duplicated f
 The hardware scope includes:
 - DC voltage sensing.
 - DC current sensing.
-- Optional environmental sensing.
 - Power regulation and protection.
 - GPIO mapping for firmware integration.
 - Schematic capture.
