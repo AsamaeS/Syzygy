@@ -2,20 +2,25 @@
 #define SAFETY_MONITOR_H
 
 #include <Arduino.h>
-#include "../config.h"
 #include "../agents/LocalControlAgent.h"
 
 class SafetyMonitor {
-public:
-    bool check(const SystemState& state);
-    void triggerOverride();
-    void releaseOverride();
-    bool isOverridden();
-    String getLastViolation();
 private:
-    bool overridden;
-    String lastViolation;
-    unsigned long overrideStartTime;
+    unsigned long lastHeartbeat;
+    const unsigned long timeoutMs = 10000; // 10-second watchdog
+
+public:
+    SafetyMonitor() : lastHeartbeat(0) {}
+
+    void updateHeartbeat() {
+        lastHeartbeat = millis();
+    }
+
+    void checkTimeout(LocalControlAgent& lca) {
+        if (lastHeartbeat > 0 && (millis() - lastHeartbeat > timeoutMs)) {
+            lca.setIdle(); // Force hardware into safe state if backend disconnects
+        }
+    }
 };
 
 #endif
