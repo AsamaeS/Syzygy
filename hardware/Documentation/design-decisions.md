@@ -1,157 +1,128 @@
 # Hardware Design Decisions
 
-**Project:** Syzygy
-**Subsystem:** Hardware Engineering
-**Status:** Draft
-**Last Updated:** 2026-08-06
+**Project:** Syzygy  
+**Subsystem:** Hardware Engineering  
+**Status:** Partially Locked  
+**Last Updated:** 2026-08-13
 
 ## 1. Project Scope
 
-The hardware development will follow a simulation-first workflow during the hackathon.
+The hardware development follows a simulation-first workflow during the hackathon.
 
-No physical hardware will be purchased or assembled during this phase. However, the schematic and PCB design will remain suitable for future fabrication.
+No physical hardware will be purchased or assembled at this stage. The schematic and overall design remain suitable for future fabrication.
 
 ## 2. Reference Node
 
-We will design one reusable ESP32-based microgrid node first.
+We are designing one reusable ESP32-based microgrid node first (Reference Node).
 
-The same architecture can later be replicated for two or three nodes:
-
-- Solar monitoring node.
-- Battery monitoring node.
-- Optional load monitoring node.
+The same architecture can later be replicated for additional nodes (Solar / Battery / Load).
 
 ## 3. Core Functions
 
-The reference node will support:
+The reference node supports:
 
-- DC voltage sensing.
-- DC current sensing.
-- ESP32 processing and Wi-Fi communication.
-- Regulated power supply.
-- Input and signal protection.
-- Hardware-to-firmware interface definition.
+- DC voltage sensing
+- DC current sensing
+- ESP32 processing and Wi-Fi communication
+- Regulated 3.3 V power
+- Basic input and signal protection
+- Clear hardware-to-firmware interface
 
-The following features are optional:
+Optional features (not implemented in current version):
 
-- Environmental sensing.
-- Load control.
-- Relay or MOSFET actuation.
+- Environmental sensing
+- Physical relay/MOSFET drivers (control signals are present)
 
 ## 4. Hardware-Firmware Boundary
 
 ### Hardware owns
-
-- Hardware architecture.
-- Sensor and component selection.
-- Power and protection design.
-- GPIO and peripheral allocation.
-- KiCad schematic and PCB design.
-- Wokwi circuit wiring.
-- LTspice analog analysis.
-- Hardware validation and documentation.
+- Architecture and component selection
+- Power and protection design
+- GPIO allocation
+- KiCad schematic
+- Wokwi simulation
+- Documentation and validation artifacts
 
 ### Firmware owns
+- Application code
+- Sensor drivers
+- MQTT and telemetry
+- JSON payloads
+- Backend communication
 
-- ESP32 application code.
-- Sensor drivers and sampling logic.
-- MQTT communication.
-- JSON payloads.
-- Telemetry handling.
-- Backend communication.
-
-GPIO assignments, calibration, sampling constraints, and integration testing are shared between Hardware and Firmware.
+Shared: GPIO map, calibration constants, integration testing.
 
 ## 5. Tools
 
-- **Wokwi:** ESP32 and circuit simulation.
-- **KiCad:** Schematic and PCB design.
-- **LTspice:** Analog and power-circuit analysis.
-- **Tinkercad Circuits:** Basic electronics learning and quick experiments.
+- Wokwi — circuit and GPIO simulation
+- KiCad — schematic design
+- LTspice — analog analysis (planned)
+- Git + GitHub — version control
 
-## 6. Main Design Decisions
+## 6. Locked Design Decisions
 
 ### Controller
+- ESP32-DevKitC (ESP32-WROOM-32)
+- Reason: Wi-Fi, community support, Wokwi compatibility, sufficient peripherals
 
-The reference node will use an ESP32-DevKitC based on the ESP32-WROOM-32.
+### Current & Voltage Sensing
+- Primary sensor: **INA226** (I2C)
+- I2C pins: SDA = GPIO21, SCL = GPIO22
+- Default I2C address: 0x40 (A0 & A1 tied to GND)
+- Backup analog voltage: GPIO34 (reserved)
 
-Reason:
-- Suitable for Wi-Fi communication.
-- Well documented.
-- Compatible with the project architecture.
-- Suitable for Wokwi simulation.
-- Provides enough GPIO and peripheral flexibility.
+### Control Outputs (Required for Demo)
+- GPIO25 → CURTAIL_CTRL
+- GPIO26 → EXPORT_CTRL
+- GPIO27 → IMPORT_CTRL
+- All outputs default to LOW (safe state)
+- On heartbeat loss → all forced to LOW
 
-### Analog Sensing
+### Status
+- GPIO2 → STATUS_LED
 
-Analog sensors will use ADC1 pins only on the classic ESP32.
+### Analog Rules
+- Only ADC1 pins are used for any analog sensing
+- ADC2 is avoided because of Wi-Fi conflict
 
-ADC2 will not be used for required analog measurements because it may conflict with Wi-Fi operation.
+### Power
+- Regulated 3.3 V rail
+- Buck converter preferred when input voltage is significantly higher than 3.3 V
 
-### Voltage Sensing
-
-The baseline voltage-sensing method will be a resistive divider.
-
-It will be designed for the project voltage range of approximately 0–30 V DC while keeping the ESP32 ADC input within a safe range.
-
-### Current Sensing
-
-The preferred current-sensing method is an INA219 or INA226 I2C sensor.
-
-ACS712 or a similar analog Hall-effect sensor will remain as a fallback option.
-
-### Power Supply
-
-The node will use a regulated 3.3 V rail.
-
-A buck converter will be preferred when the input voltage is significantly higher than 3.3 V. An LDO may be considered only when the input voltage is already close to the required output voltage.
-
-### Protection
-
-The design will include:
-
-- Reverse-polarity protection.
-- Overcurrent protection.
-- Input transient protection.
-- Local decoupling capacitors.
-- Safe voltage-divider and ADC-input design.
+### Protection (Baseline)
+- Reverse polarity protection
+- Local decoupling
+- Safe ADC input design
+- Over-current consideration
 
 ## 7. Design Principles
 
-- Keep the design simple and modular.
-- Prefer I2C for digital sensors.
-- Use ADC1 only for analog sensing.
-- Keep sufficient electrical safety margin.
-- Design one reliable reference node before duplicating it.
-- Document the reason behind every major decision.
-- Keep the design ready for future PCB fabrication.
+- Simulation-first
+- One solid reference node before duplication
+- Prefer I2C digital sensors
+- Keep clear hardware/firmware boundary
+- Document every major decision
+- Design remains fabricable later
 
-## 8. Open Decisions
+## 8. Still Open / Future Work
 
-The following details will be finalized in later milestones:
+- Exact shunt resistor value for INA226
+- Detailed power input stage (connector + protection components)
+- Full protection component selection (TVS, fuse values…)
+- Environmental sensor (optional)
+- Physical actuation stage (MOSFET/relay drivers)
+- Final BOM with part numbers and pricing
+- LTspice validation
+- PCB layout (if time permits)
 
-- Exact current-sensor variant.
-- Exact voltage-divider resistor values.
-- Exact ADC1 GPIO assignments.
-- I2C SDA and SCL pins.
-- Buck-converter implementation.
-- Final protection components.
-- Environmental sensor inclusion.
-- Actuation and control GPIOs.
-- Final number of demo nodes.
+## 9. Current Deliverables Status
 
-These decisions depend on datasheet review, Wokwi compatibility, LTspice analysis, and firmware-team feedback.
-
-## 9. Expected Hardware Deliverables
-
-- Hardware architecture diagram.
-- Component selection report.
-- GPIO and pinout map.
-- KiCad schematic.
-- PCB design files.
-- Wokwi simulation.
-- LTspice simulations.
-- BOM.
-- Validation plan.
-- Hardware-firmware interface documentation.
-- Final hardware report.
+| Deliverable              | Status          |
+|--------------------------|-----------------|
+| GPIO / Pinout Map        | Locked          |
+| Wokwi basic simulation   | Done            |
+| KiCad Schematic v1.0     | Done            |
+| Design Decisions Doc     | Updated         |
+| Power detailed design    | Pending         |
+| BOM                      | Pending         |
+| Final Hardware Report    | Pending         |
