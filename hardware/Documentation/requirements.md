@@ -1,5 +1,5 @@
 # Hardware Requirements & Constraints
-## Cooperative Microgrid Energy Orchestrator - Hardware Domain
+## Syzygy - Hardware Domain
 
 **Author:** [Waad]
 **Role:** Hardware & Embedded Hardware Engineer
