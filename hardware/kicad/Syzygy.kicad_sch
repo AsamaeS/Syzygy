@@ -160,6 +160,194 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:D"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "D"
+				(at 0 -2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Device" "D"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Pins" "1=K 2=A"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "TO-???* *_Diode_* *SingleDiode* D_*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "D_0_1"
+				(polyline
+					(pts
+						(xy -1.27 1.27) (xy -1.27 -1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 1.27) (xy 1.27 -1.27) (xy -1.27 0) (xy 1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "D_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:LED"
 			(pin_numbers
 				(hide yes)
@@ -1840,6 +2028,16 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "Input Protection (concept):\n- Reverse polarity diode\n- Fuse / PTC recommended \non real hardware"
+		(exclude_from_sim no)
+		(at 142.748 60.452 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "15318095-6a2b-48db-80a8-895bd3e7c445")
+	)
 	(text "Syzygy – Reference Node"
 		(exclude_from_sim no)
 		(at 200.406 189.738 0)
@@ -1850,7 +2048,7 @@
 		)
 		(uuid "466a82dd-8e7f-440e-a118-9e3676da2b4b")
 	)
-	(text "Schematic v1.1"
+	(text "Schematic final"
 		(exclude_from_sim no)
 		(at 251.206 193.548 0)
 		(effects
@@ -1860,7 +2058,7 @@
 		)
 		(uuid "967ae9ca-5c84-4456-b37a-db7010210df9")
 	)
-	(text "13 Aug 2026"
+	(text "28 Aug 2026"
 		(exclude_from_sim no)
 		(at 212.344 193.548 0)
 		(effects
@@ -1869,6 +2067,16 @@
 			)
 		)
 		(uuid "d7bd3afc-a9aa-487b-804c-7715ee76b3c4")
+	)
+	(text "Syzygy - Reference Node\nHardware Schematic – Final \n28 August 2026"
+		(exclude_from_sim no)
+		(at 45.974 23.622 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+			)
+		)
+		(uuid "fe98b597-33fa-4829-8f64-6a75ce80c8ce")
 	)
 	(junction
 		(at 127 144.78)
@@ -1910,7 +2118,7 @@
 		(at 111.76 64.77)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "af6eaad1-8ee2-4cb1-874d-538bd07b5f74")
+		(uuid "c29fae94-1ff1-4004-a11f-9995acd60e56")
 	)
 	(junction
 		(at 127 148.59)
@@ -2052,6 +2260,16 @@
 	)
 	(wire
 		(pts
+			(xy 123.19 64.77) (xy 127 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "28c95265-4e80-4099-a441-f6c1e735c59b")
+	)
+	(wire
+		(pts
 			(xy 163.83 85.09) (xy 213.36 85.09)
 		)
 		(stroke
@@ -2129,6 +2347,16 @@
 			(type default)
 		)
 		(uuid "5c3d0459-7446-4bed-bb97-7f9f384f4435")
+	)
+	(wire
+		(pts
+			(xy 111.76 64.77) (xy 115.57 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "656cbbf5-6227-48ed-868e-1e947237b03b")
 	)
 	(wire
 		(pts
@@ -2239,16 +2467,6 @@
 			(type default)
 		)
 		(uuid "96517896-9908-45e4-a3ef-31c0c0d0b9f5")
-	)
-	(wire
-		(pts
-			(xy 111.76 64.77) (xy 127 64.77)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a13fbd47-4629-42d5-aead-afa5e9d46ee7")
 	)
 	(wire
 		(pts
@@ -3379,6 +3597,108 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:D")
+		(at 119.38 64.77 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a6bb5ec8-4b91-479d-a086-088abf2d02d5")
+		(property "Reference" "D5"
+			(at 119.38 58.42 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "D"
+			(at 119.38 60.96 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 119.38 64.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 119.38 64.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Diode"
+			(at 119.38 64.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 119.38 64.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 119.38 64.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "cffff312-3cbf-471b-ad57-824bf5d1e680")
+		)
+		(pin "1"
+			(uuid "3795c835-142d-4aa4-81ef-a5a818998906")
+		)
+		(instances
+			(project "Syzygy"
+				(path "/e5675157-5847-41f2-89c7-b0a705829b87"
+					(reference "D5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:+3V3")
 		(at 163.83 114.3 90)
 		(unit 1)
@@ -3894,84 +4214,6 @@
 			(project "Syzygy"
 				(path "/e5675157-5847-41f2-89c7-b0a705829b87"
 					(reference "D2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 205.74 227.33 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "ecdd24cb-091c-456a-902c-b1833da9901a")
-		(property "Reference" "#PWR01"
-			(at 205.74 233.68 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 205.74 232.41 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 205.74 227.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 205.74 227.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 205.74 227.33 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "af05df12-09e1-4c42-99ca-2ec123b52c14")
-		)
-		(instances
-			(project "Syzygy"
-				(path "/e5675157-5847-41f2-89c7-b0a705829b87"
-					(reference "#PWR01")
 					(unit 1)
 				)
 			)
