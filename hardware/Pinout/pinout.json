@@ -1,0 +1,56 @@
+{
+    "node": "mg-alpha",
+    "esp32_variant": "ESP32-DevKitC",
+    "last_updated": "2026-08-09",
+    "pins": {
+        "ADC_VOLTAGE_BACKUP": {
+        "pin": 34,
+        "type": "analog_in",
+        "notes": "Backup only. Primary voltage from INA226"
+    },
+    "I2C_SDA": {
+    "pin": 21,
+    "type": "i2c",
+    "bus": "I2C0"
+},
+"I2C_SCL": {
+    "pin": 22,
+    "type": "i2c",
+    "bus": "I2C0"
+},
+"CURTAIL_CTRL": {
+    "pin": 25,
+    "type": "digital_out",
+    "default": "LOW",
+    "safe_state": "LOW"
+},
+"EXPORT_CTRL": {
+    "pin": 26,
+    "type": "digital_out",
+    "default": "LOW",
+    "safe_state": "LOW"
+},
+"IMPORT_CTRL": {
+    "pin": 27,
+    "type": "digital_out",
+    "default": "LOW",
+    "safe_state": "LOW"
+},
+"STATUS_LED": {
+    "pin": 2,
+    "type": "digital_out",
+    "notes": "Reserved for system status"
+}
+},
+"sensors": {
+    "INA226": {
+        "interface": "i2c",
+        "address": "0x40",
+        "measures": ["bus_voltage", "current", "power"]
+}
+},
+"safety": {
+    "heartbeat_timeout_ms": 10000,
+    "on_heartbeat_loss": "all_control_outputs_to_LOW"
+}
+}

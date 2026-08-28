@@ -1,0 +1,107 @@
+# Hardware Architecture Block Diagram
+
+## Reference node
+This project uses one reference ESP32-based microgrid node architecture.
+
+## Functional blocks
+The reference node contains the following blocks :
+
+1. DC Source Input
+2. Power Subsystem
+3. Protection Subsystem
+4. Voltage Sensing Subsystem
+5. Current Sensing Subsystem
+6. ESP32 Processing Subsystem
+7. Optional Environmental Sensor Subsystem
+8. Optional Actuation Subsystem
+9. Wireless Communication via ESP32 Wi-Fi
+
+## Signal flow
+DC Source Input → Power and Protection → Sensors → ESP32 → Wi-Fi/MQTT → Backend
+
+## Detailed Block Roles
+
+### 1. DC source Input
+Represents the microgrid input source used to power or simulate the node.
+
+### 2. Power subsystem
+Converts the input source into stable regulated rails for the ESP32 and sensors.
+
+### 3. Protection subsystem
+Includes reverse-polarity protection, overcurrent protection, transient suppression, and decoupling.
+
+### 4. Voltage sensing subsystem
+Measures the microgrid voltage and scales it to a safe ADC range for the ESP32.
+
+### 5. Current sensing subsystem
+Measures current using an I2C or analog sensing method depending on the final component choice.
+
+### 6. ESP32 processing subsystem
+Reads sensor data, manages GPIO, and sends telemetry through Wi-Fi.
+
+### 7. Optional environmental sensor subsystem
+Provides temperature, humidity, or light data if needed for the demo.
+
+### 8. Optional actuation subsystem
+Allows GPIO-controlled switching of a load or relay if load control is included.
+
+### 9. Wireless communication
+The ESP32 sends telemetry to the backend over Wi-Fi using MQTT through firmware.
+
+## Hardware-Firmware boundary
+Hardware ends at the electrical interface into the ESP32 pins.
+Firmware starts after the GPIO, ADC, and I2C signals are available to software.
+
+## Notes
+This diagram is a hardware architecture reference and not the final schematic.
+
+
+
+┌──────────────────────────────┐
+│ DC Source │
+│ Battery / Solar / Supply │
+└──────────────┬───────────────┘
+│
+▼
+┌───────────────────────────────────────────┐
+│ Power Subsystem │
+│ Regulator + Reverse Polarity Protection │
+│ + Overcurrent Protection + Decoupling │
+└──────────────┬────────────────────────────┘
+│
+┌─────────────────┼─────────────────┐
+│ │ │
+▼ ▼ ▼
+┌──────────────┐ ┌──────────────┐ ┌─────────────────┐
+│ 3.3V Rail │ │ 5V Rail │ │ Protection Net │
+│ ESP32 / I2C │ │ Optional Use │ │ TVS / Fuse etc │
+└──────┬───────┘ └──────────────┘ └─────────────────┘
+│
+▼
+┌──────────────────────────────────────────────────────────────┐
+│ ESP32 Node │
+│ │
+│ ┌────────────────────┐ ┌───────────────────────────┐ │
+│ │ Voltage Sensing │ │ Current Sensing │ │
+│ │ Divider / ADC1 │ │ I2C or ADC1 Sensor │ │
+│ └─────────┬──────────┘ └─────────┬─────────────────┘ │
+│ │ │ │
+│ ▼ ▼ │
+│ ┌────────────────────────────┐ │
+│ │ ESP32 MCU │ │
+│ │ ADC1 / I2C / GPIO / Wi-Fi │ │
+│ └────────────┬───────────────┘ │
+│ │ │
+│ ┌──────────────────────┼──────────────────────┐ │
+│ │ │ │ │
+│ ▼ ▼ ▼ │
+│ ┌──────────────┐ ┌──────────────┐ ┌────────────────┐ │
+│ │ Optional Env │ │ Optional │ │ Wi-Fi / MQTT │ │
+│ │ Sensor │ │ Actuation │ │ to Backend │ │
+│ │ I2C │ │ GPIO │ │ / Dashboard │ │
+│ └──────────────┘ └──────────────┘ └────────────────┘ │
+└──────────────────────────────────────────────────────────────┘
+
+Hardware-Firmware Boundary
+Hardware ends at ESP32 pins / ADC / I2C / GPIO
+Firmware starts after electrical signals reach MCU

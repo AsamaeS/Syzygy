@@ -1,0 +1,43 @@
+# Hardware Block Diagram
+
+This diagram shows the reference ESP32 microgrid node architecture.
+For design decisions and assumptions, see 'hardware/Documentation/design-decisions.md'
+For detailed block descriptions, see 'hardware/Architecture/block-diagram-notes.md'
+
+
+
+┌──────────────────────────────┐
+DC Source ────────► │ Power Subsystem │ ─────► 3.3V Rail
+(Battery / Solar) │ Reg + Protection + Decoupling│ ─────► 5V Rail (optional)
+└──────────────┬───────────────┘
+│
+│ power
+▼
+┌────────────────────────────────────────────────────┐
+│ ESP32 Node │
+│ │
+│ ┌──────────────────────┐ ┌────────────────────┐ │
+Voltage ─►│ Voltage Sensing Block │ │ Current Sensing │◄─► Current
+Input │ Divider / ADC1 │ │ Block I2C or ADC1 │ Input
+│ └──────────┬───────────┘ └──────────┬─────────┘ │
+│ │ │ │
+│ ▼ ▼ │
+│ ESP32 MCU │
+│ ADC1 / I2C / GPIO / Wi‑Fi │
+│ │
+│ ┌──────────────────────┐ │
+│ │ Optional Env Sensor │─── I2C ───────► │
+│ │ Temp / Light / Humid │ │
+│ └──────────────────────┘ │
+│ │
+│ ┌──────────────────────┐ │
+│ │ Optional Actuation │─── GPIO ───────► │
+│ │ Relay / MOSFET Driver │ │
+│ └──────────────────────┘ │
+└────────────────────────────────────────────┘
+│
+▼
+Wi‑Fi / MQTT
+│
+▼
+Backend / Dashboard
