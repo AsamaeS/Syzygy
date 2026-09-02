@@ -15,7 +15,7 @@
 #define MQTT_PORT               1883
 #define CLIENT_ID               "ESP32_Microgrid_Node1_Hoor_99812"
 
-#define TELEMETRY_TOPIC         "microgrid/node1/telemetry"
+#define TELEMETRY_TOPIC         "syzygy/mg-alpha/telemetry/power"
 #define COMMAND_TOPIC           "microgrid/node1/command"
 
 #define TELEMETRY_INTERVAL_MS   5000
