@@ -1,80 +1,48 @@
 #include <Arduino.h>
-#include <WiFi.h>
-#include <PubSubClient.h>
 #include "config.h"
-#include "agents/LocalControlAgent.h"
 #include "communication/MQTTClient.h"
+#include "sensors/ACS712Reader.h"
+#include "agents/LocalControlAgent.h"
 #include "safety/SafetyMonitor.h"
 
-LocalControlAgent lca;
 MQTTClient mqtt;
+ACS712Reader sensors(VOLTAGE_PIN, CURRENT_PIN);
+LocalControlAgent lca(EXPORT_RELAY_PIN, IMPORT_RELAY_PIN, CURTAILMENT_LED);
 SafetyMonitor safety;
 
 unsigned long lastTelemetry = 0;
-unsigned long lastHeartbeat = 0;
-unsigned long lastConsensus = 0;
-unsigned long lastADMM = 0;
 
 void setup() {
     Serial.begin(115200);
-    delay(1000);
+    
+    pinMode(STATUS_LED_PIN, OUTPUT);
+    digitalWrite(STATUS_LED_PIN, HIGH);
 
-    Serial.println("========================================");
-    Serial.println("  SYZYGY — Distributed Microgrid Agent  ");
-    Serial.print  ("  Node: "); Serial.println(NODE_ID);
-    Serial.println("========================================");
-
-    lca.initSensors();
-
-    WiFi.begin(WIFI_SSID, WIFI_PASS);
-    while (WiFi.status() != WL_CONNECTED) {
-        delay(500); Serial.print(".");
-    }
-    Serial.println("\nWiFi connected");
-
+    sensors.begin();
+    lca.begin();
     mqtt.connect();
-
-    mqtt.onBidReceived([](const BidMsg& bid) {
-        lca.handleBid(bid);
-    });
-    mqtt.onConsensusReceived([](const ConsensusMsg& msg) {
-        lca.handleConsensus(msg);
-    });
-
-    Serial.println("Setup complete. Entering main loop...");
+    
+    safety.updateHeartbeat();
 }
 
 void loop() {
     mqtt.loop();
 
-    SystemState state = lca.readState();
-
-    if (!safety.check(state)) {
-        safety.triggerOverride();
-        mqtt.publishSafetyAlert(state);
-        delay(1000);
-        return;
-    }
-
-    if (millis() - lastTelemetry > TELEMETRY_INTERVAL_MS) {
-        mqtt.publishTelemetry(state);
+    // 5-second interval for sensor reading & telemetry publishing
+    if (millis() - lastTelemetry >= TELEMETRY_INTERVAL_MS) {
         lastTelemetry = millis();
+
+        SystemState currentState;
+        currentState.voltage = sensors.readVoltage();
+        currentState.current = sensors.readCurrent();
+        currentState.power = sensors.readPower();
+        currentState.mode = "NORMAL";
+
+        mqtt.publishTelemetry(currentState);
     }
 
-    if (millis() - lastHeartbeat > HEARTBEAT_INTERVAL_MS) {
-        mqtt.publishHeartbeat(state.neighbors, state.neighborCount);
-        lastHeartbeat = millis();
-    }
-
-    if (millis() - lastConsensus > CONSENSUS_INTERVAL_MS) {
-        lca.runConsensusStep();
-        lastConsensus = millis();
-    }
-
-    if (millis() - lastADMM > ADMM_INTERVAL_MS) {
-        lca.runADMMCensoredStep();
-        lastADMM = millis();
-    }
-
+    // Check 10-second backend safety watchdog
+    safety.checkTimeout(lca);
+    
     delay(10);
 }

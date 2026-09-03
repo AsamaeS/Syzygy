@@ -1,80 +1,60 @@
 # Hardware Design Decisions
-Project: Syzygy
-Subsystem: Hardware Engineering
-Status: Draft
+
+**Project:** Syzygy 
+**Subsystem:** Hardware Engineering  
+**Status:** Final for Hackathon  
+**Last Updated:** 28 Aug 2026
 
 ## 1. Project Scope
-This hardware work will follow a simulation-first workflow during the hackathon.
-No physical hardware components will be purchased during this phase.
-The design will still be prepared in a manufacturable way so it can be built later if the team decides to fabricate a real prototype.
 
-## 2. Reference Node Strategy
-We will design one reference ESP32-based microgrid node first.
-After the reference node is completed, the same architecture can be duplicated for additional nodes if needed.
+Hardware development followed a **simulation-first** approach during the hackathon.  
+No physical components were purchased or assembled. The design remains suitable for future fabrication.
 
-## 3. Core Hardware Functions
-The hardware scope includes:
-- DC voltage sensing.
-- DC current sensing.
-- Power regulation and protection.
-- GPIO mapping for firmware integration.
-- Schematic capture.
-- Simulation support in Wokwi and LTspice.
-- Future-ready PCB design in KiCad.
+## 2. Reference Node
 
-## 4. Optional Functions
-The following features are optional at this stage:
-- Environmental sensing.
-- Load control / actuation.
-- Multiple node variants.
+One reusable ESP32-based microgrid node was designed as the reference.  
+The same architecture can be replicated for additional nodes (Solar / Battery / Load).
 
-These features may be added later if they improve the demo or final system value.
+## 3. Core Functions
 
-## 5. Hardware-Firmware Boundary
-Hardware is responsible for:
-- Sensor selection.
-- Power design.
-- Protection circuitry.
-- GPIO allocation.
-- Electrical interface definition.
-- Schematic design.
-- Simulation setup.
-- Validation and documentation.
+- DC voltage sensing
+- DC current sensing
+- ESP32 processing + Wi-Fi
+- Regulated 3.3 V rail
+- Basic input/signal protection principles
+- Clear Hardware ↔ Firmware interface
 
-Firmware is responsible for:
-- MQTT topics.
-- JSON payloads.
-- Sampling logic.
-- Telemetry handling.
-- Backend communication.
-- ESP32 application logic.
+Optional (not implemented in this version):
+- Environmental sensing
+- Physical relay/MOSFET drivers (control signals are present)
 
-## 6. Tools
-The following tools will be used:
-- Wokwi for ESP32 and circuit simulation.
-- KiCad for schematic and PCB design.
-- LTspice for analog circuit analysis.
-- Tinkercad Circuits for basic concept-level circuit checks only.
+## 4. Hardware–Firmware Boundary
 
-## 7. Design Principles
-The design will follow these principles:
-- Use ADC1 only for analog sensing on the classic ESP32.
-- Prefer I2C whenever possible for digital sensors.
-- Keep the design modular and easy to expand.
-- Make the schematic clean and fabrication-ready.
-- Document every important decision for the rest of the team.
+**Hardware owns:** Architecture, component selection, power & protection design, GPIO allocation, schematic, Wokwi, documentation.
 
-## 8. Expected Output
-The hardware phase will produce:
-- A clear hardware architecture.
-- A finalized component strategy.
-- A GPIO pinout draft.
-- A schematic design.
-- Simulation files.
-- Validation notes.
-- A future-ready BOM.
-- Hardware documentation for firmware handoff.
+**Firmware owns:** Application code, sensor drivers, MQTT, JSON telemetry, backend communication.
 
-## 9. Notes
-This document is a design decision record, not the final schematic.
-It will be updated as the hardware architecture becomes more detailed.
+**Shared:** GPIO map, calibration, integration testing.
+
+## 5. Locked Decisions
+
+| Item                    | Decision                                      |
+|-------------------------|-----------------------------------------------|
+| MCU                     | ESP32-WROOM-32 (DevKitC)                      |
+| Primary Sensor          | INA226 (I2C)                                  |
+| I2C Pins                | SDA = GPIO21, SCL = GPIO22                    |
+| I2C Address             | 0x40 (A0 & A1 to GND)                         |
+| Control Outputs         | GPIO25 = CURTAIL, GPIO26 = EXPORT, GPIO27 = IMPORT |
+| Status LED              | GPIO2                                         |
+| Backup Voltage ADC      | GPIO34 (reserved)                             |
+| Shunt Resistor          | 0.01 Ω                                        |
+| Default / Safe State    | All control outputs = LOW                     |
+
+## 6. Design Principles
+
+- Simulation-first
+- One solid reference node before duplication
+- Prefer I2C digital sensors
+- ADC1 only for analog
+- Clear documentation of every major decision
+- Design remains fabricable later
