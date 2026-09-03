@@ -4,7 +4,7 @@
 
 Built at **VoltHacks 2026**. Syzygy is a research-driven prototype (not a generic AI dashboard) that tackles **renewable energy curtailment** by letting multiple microgrids negotiate energy sharing *before* excess solar power is wasted using game-theoretic, distributed optimization running directly on ESP32 nodes.
 
-📄 [Project inspiration & research strategy](#-research-foundation) · 🎥 [Demo scenarios](#-demo-scenarios) · 🚀 [Quick start](#-quick-start)
+📄 [Project inspiration & research strategy](#-research-foundation) · 🚀 [Quick start](#-quick-start)
 
 ---
 
@@ -229,22 +229,6 @@ Full BOM: [`hardware/bom/bill_of_materials.md`](hardware/bom/bill_of_materials.m
 
 Hardware development was **simulation-first** - see [`hardware/Reports/final-hardware-report.md`](hardware/Reports/final-hardware-report.md) for the complete rationale and what's left for a physical build.
 
----
-
-## 🎬 Demo Scenarios
-
-These four scenarios are the heart of the presentation, they tell a clear before/after/edge-case story:
-
-| # | Scenario | What it proves | Headline result |
-|---|---|---|---|
-| 1 | **Baseline (non-cooperative)** | Each node optimizes alone, no MQTT sharing | ~30% curtailment, ~60% self-consumption |
-| 2 | **Cooperative (Syzygy)** | Nodes negotiate via Censored ADMM | ~5% curtailment, ~85% self-consumption, fairness index > 0.8 |
-| 3 | **Topology change ("coup de théâtre")** | A node drops out mid-run; ADMM reconfigures live | Reconfiguration in < 2 s, no crash |
-| 4 | **Safety override** | A negotiated exchange would exceed a physical current limit | Detected in < 10 ms, overridden in < 50 ms |
-
-**Suggested live-demo order:** run Scenario 1 → show the dashboard's curtailment number → flip nodes into cooperative mode (Scenario 2) and watch curtailment drop in real time on the same dashboard → kill one node's power to trigger Scenario 3 → finally force an unsafe bid to trigger Scenario 4 and show the Safety Monitor fire. This single continuous run *is* your judging narrative.
-
-Full write-ups: [`docs/experiments/`](docs/experiments).
 
 ---
 
