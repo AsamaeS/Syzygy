@@ -4,7 +4,7 @@
 
 Built at **VoltHacks 2026**. Syzygy is a research-driven prototype (not a generic AI dashboard) that tackles **renewable energy curtailment** by letting multiple microgrids negotiate energy sharing *before* excess solar power is wasted using game-theoretic, distributed optimization running directly on ESP32 nodes.
 
-📄 [Project inspiration & research strategy](#-research-foundation) · 🚀 [Quick start](#-quick-start)
+📄 [Project inspiration & research strategy](#-research-foundation) · 🎥 [Demo scenarios](#-demo-scenarios) · 🚀 [Quick start](#-quick-start)
 
 ---
 
@@ -229,6 +229,19 @@ Full BOM: [`hardware/bom/bill_of_materials.md`](hardware/bom/bill_of_materials.m
 
 Hardware development was **simulation-first** - see [`hardware/Reports/final-hardware-report.md`](hardware/Reports/final-hardware-report.md) for the complete rationale and what's left for a physical build.
 
+
+---
+
+## Demo Scenarios
+
+The system is demonstrated through four scenarios:
+
+1. Baseline operation without cooperation
+2. Cooperative operation using ADMM
+3. Live topology change and reconfiguration
+4. Safety override for unsafe bids
+
+See `docs/experiments/` for the full experiment write-ups.
 
 ---
 
