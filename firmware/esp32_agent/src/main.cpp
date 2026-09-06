@@ -1,12 +1,12 @@
 #include <Arduino.h>
 #include "config.h"
 #include "communication/MQTTClient.h"
-#include "sensors/ACS712Reader.h"
+#include "sensors/INA226Reader.h"
 #include "agents/LocalControlAgent.h"
 #include "safety/SafetyMonitor.h"
 
 MQTTClient mqtt;
-ACS712Reader sensors(VOLTAGE_PIN, CURRENT_PIN);
+INA226Reader sensors;
 LocalControlAgent lca(EXPORT_RELAY_PIN, IMPORT_RELAY_PIN, CURTAILMENT_LED);
 SafetyMonitor safety;
 
@@ -28,7 +28,7 @@ void setup() {
 void loop() {
     mqtt.loop();
 
-    // 5-second interval for sensor reading & telemetry publishing
+    // 5-second telemetry loop
     if (millis() - lastTelemetry >= TELEMETRY_INTERVAL_MS) {
         lastTelemetry = millis();
 
@@ -41,7 +41,7 @@ void loop() {
         mqtt.publishTelemetry(currentState);
     }
 
-    // Check 10-second backend safety watchdog
+    // Backend watchdog safety check
     safety.checkTimeout(lca);
     
     delay(10);
