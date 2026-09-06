@@ -15,7 +15,7 @@
 #define MQTT_PORT               1883
 #define CLIENT_ID               "ESP32_Microgrid_Node1_Hoor_99812"
 
-#define TELEMETRY_TOPIC         "microgrid/node1/telemetry"
+#define TELEMETRY_TOPIC         "syzygy/mg-alpha/telemetry/power"
 #define COMMAND_TOPIC           "microgrid/node1/command"
 
 #define TELEMETRY_INTERVAL_MS   5000
@@ -32,7 +32,9 @@
 #define EXPORT_RELAY_PIN        26
 #define IMPORT_RELAY_PIN        27
 #define CURTAILMENT_LED         25
-#define VOLTAGE_PIN             34
-#define CURRENT_PIN             35
+
+// I2C Sensor Configuration (INA226)
+#define I2C_SDA_PIN             21
+#define I2C_SCL_PIN             22
 
 #endif
