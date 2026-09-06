@@ -32,7 +32,9 @@
 #define EXPORT_RELAY_PIN        26
 #define IMPORT_RELAY_PIN        27
 #define CURTAILMENT_LED         25
-#define VOLTAGE_PIN             34
-#define CURRENT_PIN             35
+
+// I2C Sensor Configuration (INA226)
+#define I2C_SDA_PIN             21
+#define I2C_SCL_PIN             22
 
 #endif
